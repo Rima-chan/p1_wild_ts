@@ -1,0 +1,74 @@
+form {
+  display: grid;
+  place-content: center;
+  grid-gap: 0.5rem;
+  background-color: #e9f2fd;
+  padding: 1rem;
+}
+
+label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+input {
+  font-size: 16px;
+  font-size: Max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: #fff;
+  border: 2px solid #f76c6c;
+  border-radius: 4px;
+  transition: 180ms box-shadow ease-in-out;
+}
+
+button {
+  background-color: #f76c6c;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.error {
+  background-color: red;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+}
+
+.skills {
+  display: inline-flex;
+}
+
+.skills label {
+  margin-bottom: 0.5em;
+}
+
+.skills input {
+  margin-bottom: 0.5em;
+}
+
+.skills_inputs {
+  display: inline-flex;
+  flex-direction: column;
+  margin-right: 0.5em;
+}
+
+.skills_button {
+  align-self: center;
+  height: 3em;
+  border-radius: 50%;
+}
+
+.skills_label {
+  font-size: 0.9em;
+}
+
+.skills_h3 {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 0.5em;
+}
