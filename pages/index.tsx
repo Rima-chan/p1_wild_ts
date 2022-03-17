@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Index.module.css";
-import Logo from "../public/logo.png";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { WilderForm } from "../components/WilderForm";
+import { WildersList } from "../components/WildersList";
+import { IWilder } from "../types/wilder";
 
 const Home: NextPage = () => {
+  const [wilders, setWilders] = useState<IWilder[]>([]);
   return (
     <>
       <Head>
@@ -17,9 +19,8 @@ const Home: NextPage = () => {
       </Head>
       <div className={styles.container}>
         <Header />
-        <main className={styles.main}>
-          <WilderForm />
-        </main>
+        <WilderForm wilders={wilders} setWilders={setWilders} />
+        <WildersList wilders={wilders} setWilders={setWilders} />
         <Footer />
       </div>
     </>

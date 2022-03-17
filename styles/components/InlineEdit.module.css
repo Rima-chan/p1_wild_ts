@@ -1,0 +1,20 @@
+.editable_input {
+  background-color: transparent;
+  border: 0;
+  color: #f76c6c;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+.editable_input:hover {
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.editable_input:focus {
+  border: 2px solid #f76c6c;
+}
+
+.editable_title {
+  font-size: 20px;
+}

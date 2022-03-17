@@ -25,3 +25,46 @@ h6,
 p {
   margin: 0;
 }
+
+header h1 {
+  padding: 20px 0;
+  text-align: center;
+}
+
+main h2 {
+  font-size: 30px;
+  padding: 20px 0;
+  text-align: center;
+}
+
+label {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+input {
+  font-size: 16px;
+  font-size: Max(16px, 1em);
+  font-family: inherit;
+  padding: 0.25em 0.5em;
+  background-color: #fff;
+  border: 2px solid #f76c6c;
+  border-radius: 4px;
+  transition: 180ms box-shadow ease-in-out;
+}
+
+button {
+  background-color: #f76c6c;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(3, 32%);
+  justify-content: space-between;
+}
