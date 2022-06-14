@@ -68,3 +68,9 @@ button {
   grid-template-columns: repeat(3, 32%);
   justify-content: space-between;
 }
+
+@media screen and (max-width: 600px) {
+  .card-row {
+    grid-template-columns: repeat(2, FR);
+  }
+}

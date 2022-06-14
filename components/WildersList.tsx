@@ -15,7 +15,6 @@ export const WildersList: FC<WilderProps> = ({ wilders, setWilders }) => {
     handlerEnabled: true,
   });
   useEffect(() => {
-    console.log(response);
     if (response !== null) {
       setWilders(response?.data.result);
     }
@@ -24,19 +23,21 @@ export const WildersList: FC<WilderProps> = ({ wilders, setWilders }) => {
     <main className="container">
       <h2>Wilders</h2>
       <section className="card-row">
-        {wilders &&
-          wilders.map((wilder, index) => {
-            return (
-              <WilderCard
-                key={`${wilder.name}-${index}`}
-                name={wilder.name}
-                city={wilder.city}
-                skills={wilder.skills}
-                _id={wilder._id}
-                setWilders={setWilders}
-              />
-            );
-          })}
+        {wilders && wilders.length > 0
+          ? wilders.map((wilder, index) => {
+              console.log(wilder);
+              return (
+                <WilderCard
+                  key={`${wilder.name}-${index}`}
+                  name={wilder.name}
+                  city={wilder.city}
+                  skills={wilder.skills}
+                  _id={wilder._id}
+                  setWilders={setWilders}
+                />
+              );
+            })
+          : null}
       </section>
     </main>
   );

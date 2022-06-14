@@ -6,6 +6,7 @@ import React, {
   FormEvent,
   SetStateAction,
   Dispatch,
+  useReducer,
 } from "react";
 import { Skill } from "./Skill";
 import styles from "../styles/components/WilderForm.module.css";
@@ -13,72 +14,117 @@ import { IWilder, ISkill } from "../types/wilder";
 import { url } from "../utils/APIUrl";
 import { WilderProps } from "../types/wilder";
 import { useCreateUpdateAxios } from "../utils/hooks";
+import { on } from "events";
 
 interface ISkillFormProps {
   skills: ISkill[];
   setSkills: Dispatch<SetStateAction<ISkill[]>>;
+  inEditMode: boolean;
+  setInEditMode: Dispatch<SetStateAction<boolean>>;
+  onCallback?: (data: ISkill[], id: string | undefined) => void;
+  wilderId?: string;
 }
 
-export const SkillForm: FC<ISkillFormProps> = ({ skills, setSkills }) => {
-  const addSkill = () => {};
+export const SkillForm: FC<ISkillFormProps> = ({
+  skills,
+  setSkills,
+  inEditMode,
+  setInEditMode,
+  onCallback,
+  wilderId,
+}) => {
+  const [currentSkill, setCurrentSkill] = useState<ISkill>({
+    title: "",
+    votes: 0,
+  });
+  const addSkill = () => {
+    if (!currentSkill.title || !currentSkill.votes) return;
+    setSkills((prevState) => {
+      return [...prevState, currentSkill];
+    });
+    setCurrentSkill({ title: "", votes: 0 });
+  };
   const deleteSkill = (title: string | null, votes: number | null) => {
     if (!title || !votes) return;
-    setWilder((prevState) => {
-      return {
-        ...prevState,
-        skills: [
-          ...prevState.skills.filter(
-            (skill) => skill.title !== title && skill.votes !== votes
-          ),
-        ],
-      };
+    setSkills((prevState) => {
+      return [
+        ...prevState.filter(
+          (skill) => skill.title !== title && skill.votes !== votes
+        ),
+      ];
     });
+  };
+  const updateSkills = () => {
+    if (onCallback && wilderId) {
+      onCallback(skills, wilderId);
+      setInEditMode(false);
+    }
   };
   return (
     <>
-      <label htmlFor="skill-input" className={styles.skills_label}>
-        Title :
-      </label>
-      <input
-        id="skill-input"
-        type="text"
-        placeholder="Type your skills"
-        value={skill.title}
-        onChange={(e: ChangeEvent<HTMLInputElement>): void => {
-          setSkill((prevState) => {
-            return { ...prevState, title: e.target.value };
-          });
-        }}
-      ></input>
-      <label htmlFor="votes-select" className={styles.skills_label}>
-        Votes :
-      </label>
-      <select
-        name="votes"
-        id="votes-select"
-        className={styles.skills_select}
-        value={skill.votes}
-        onChange={(e: ChangeEvent<HTMLSelectElement>): void => {
-          setSkill((prevState) => {
-            return { ...prevState, votes: parseInt(e.target.value, 10) };
-          });
-        }}
-      >
-        <option value="">-- Please choose an option --</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-      </select>
-      <button type="button" className={styles.skills_button} onClick={addSkill}>
-        +
-      </button>
+      <span className={styles.skills}>
+        <label htmlFor="skill-input" className={styles.skills_label}>
+          Title :
+        </label>
+        <input
+          id="skill-input"
+          type="text"
+          placeholder="Type your skills"
+          className={styles.skills_title}
+          value={currentSkill.title}
+          onChange={(e: ChangeEvent<HTMLInputElement>): void => {
+            setCurrentSkill({ ...currentSkill, title: e.target.value });
+          }}
+        ></input>
+        <label htmlFor="votes-select" className={styles.skills_label}>
+          Votes :
+        </label>
+        <input
+          className={styles.skills_votes}
+          type="number"
+          min="0"
+          max="20"
+          name="votes"
+          id="votes-select"
+          value={currentSkill.votes}
+          onChange={(e: ChangeEvent<HTMLInputElement>): void => {
+            setCurrentSkill({
+              ...currentSkill,
+              votes: parseInt(e.target.value),
+            });
+          }}
+        ></input>
+        <button
+          type="button"
+          className={styles.skills_button}
+          onClick={addSkill}
+        >
+          ➕
+        </button>
+        {inEditMode ? (
+          <button
+            type="button"
+            className={styles.skills_button}
+            onClick={updateSkills}
+          >
+            ✔️
+          </button>
+        ) : null}
+      </span>
+      <ul className={styles.skills_list}>
+        {skills &&
+          skills.map((skill, index) => {
+            return (
+              <Skill
+                key={`${skill.title}-${index}`}
+                title={skill.title}
+                votes={skill.votes}
+                deleteButton={true}
+                onCallback={deleteSkill}
+              />
+            );
+          })}
+      </ul>
     </>
   );
 };
